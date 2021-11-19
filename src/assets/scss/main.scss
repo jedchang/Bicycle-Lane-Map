@@ -1,0 +1,1357 @@
+#app {
+  font-family: 'Rubik', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: $textPrimaryColor;
+  user-select: none;
+
+  * {
+    box-sizing: border-box;
+  }
+
+  a {
+    text-decoration: none;
+  }
+
+  .form-control:focus {
+    outline: none;
+    box-shadow: none !important;
+  }
+
+  .vld-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    @include small {
+      margin-bottom: 10%;
+    }
+    @include extraSmall {
+      margin-bottom: 10%;
+    }
+  }
+  .vld-overlay {
+    overflow: hidden;
+    height: 100%;
+  }
+  .vld-overlay.is-full-page {
+    z-index: 9999;
+  }
+  .vld-overlay .vld-background {
+    background-color: #fff;
+    opacity: 0.7;
+  }
+
+  .loading-logo {
+    width: 128px;
+    height: auto;
+    @include large {
+      width: 120px;
+    }
+    @include medium {
+      width: 115px;
+    }
+    @include small {
+      width: 108px;
+    }
+    @include extraSmall {
+      width: 98px;
+    }
+  }
+
+  .sky {
+    width: 200px;
+    height: 200px;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    overflow: hidden;
+    position: absolute;
+    z-index: 30;
+
+    @for $i from 1 through 9 {
+      .cloud-#{$i} {
+        position: absolute;
+        right: -25px;
+        top: (20 + $i * 14) + px;
+        height: 3px;
+        width: (3 + $i * 2) + px;
+        background: #949494;
+        border-radius: 3px;
+        animation: sky
+          (0.8 + random(2) / 10) +
+          s
+          linear
+          (random(10) / 10) +
+          s
+          infinite;
+      }
+    }
+  }
+
+  .fade-enter-active,
+  .fade-leave-active {
+    transition: opacity 0.5s;
+  }
+  .fade-enter,
+  .fade-leave-to {
+    opacity: 0;
+  }
+}
+
+.main {
+  height: 100% !important;
+  width: 100%;
+  position: relative;
+  z-index: 4;
+  background: #fff;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  @include small {
+    flex-direction: column;
+  }
+  @include extraSmall {
+    flex-direction: column;
+  }
+}
+
+#map {
+  width: 60%;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  @include medium {
+    width: 55%;
+  }
+  @include small {
+    width: 100%;
+    height: 450px;
+    position: relative;
+  }
+  @include extraSmall {
+    width: 100%;
+    height: 450px;
+    position: relative;
+  }
+
+  .leaflet-touch {
+    .leaflet-bar {
+      a {
+        width: 40px;
+        height: 40%;
+        line-height: 40px;
+        color: $primaryColor;
+      }
+    }
+  }
+  .leaflet-control-zoom.leaflet-bar.leaflet-control {
+    margin-right: 20px;
+  }
+  .leaflet-top {
+    .leaflet-control {
+      margin-top: 20px;
+    }
+  }
+  .leaflet-popup-content {
+    margin: 0;
+  }
+  .leaflet-popup-close-button {
+    top: 2px;
+    color: #c3c3c3;
+    transition: $setTransition;
+    &:hover {
+      color: $primaryColor;
+    }
+  }
+  .leaflet-control-attribution {
+    @include small {
+      display: none;
+    }
+    @include extraSmall {
+      display: none;
+    }
+  }
+  .circle {
+    width: 49px;
+    height: 49px;
+    line-height: 70px;
+    background-image: url('~@/assets/images/icon_marker_clusterGroup.png');
+    text-align: center;
+    color: $primaryColor;
+    font-weight: 600;
+    position: relative;
+    &:before {
+      content: '';
+      position: absolute;
+      z-index: 1;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      border-radius: 50%;
+      background-color: transparent;
+      animation: pulse 1.5s infinite;
+      animation-delay: 0.4s;
+    }
+    &:after {
+      content: '';
+      position: absolute;
+      z-index: 1;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      border-radius: 50%;
+      background-color: transparent;
+      animation: pulse 1.5s infinite;
+    }
+  }
+}
+
+.inner-container {
+  position: relative;
+  width: 40%;
+  background: #f0f0f0;
+  min-height: 100vh;
+  box-shadow: -6px -1px 15px 0 rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  @include medium {
+    width: 45%;
+  }
+  @include small {
+    width: 100%;
+    background: #ffffff;
+  }
+  @include extraSmall {
+    width: 100%;
+    background: #ffffff;
+  }
+
+  .nav-logo {
+    width: 40%;
+    position: fixed;
+    top: 0;
+    right: 0;
+    box-sizing: border-box;
+    padding: 20px 30px;
+    background-color: #ffffff;
+    text-align: center;
+    box-shadow: 0 9px 15px 0 rgba(0, 0, 0, 0.06);
+    border-bottom: 1px solid #e5e5e5;
+    z-index: 10;
+    @include medium {
+      width: 45%;
+    }
+    @include small {
+      width: 100%;
+      position: relative;
+      padding: 20px 15px;
+    }
+    @include extraSmall {
+      width: 100%;
+      position: relative;
+      padding: 20px 15px;
+    }
+    a {
+      margin-left: 5px;
+    }
+    .logo {
+      width: 240px;
+      height: auto;
+      @include large {
+        width: 220px;
+      }
+      @include medium {
+        width: 220px;
+      }
+      @include small {
+        width: 200px;
+      }
+      @include extraSmall {
+        width: 180px;
+      }
+    }
+  }
+
+  .content {
+    padding: 145px 30px 60px;
+    max-height: 100%;
+    overflow: visible;
+    @include large {
+      padding: 145px 25px 60px;
+    }
+    @include medium {
+      padding: 150px 25px 60px;
+    }
+    @include small {
+      padding: 55px 15px 60px;
+    }
+    @include extraSmall {
+      padding: 55px 15px 60px;
+    }
+
+    .el-tabs {
+      width: 100%;
+      .label {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        .material-icons {
+          margin-right: 7px;
+          color: $primaryColor;
+        }
+      }
+      .el-tabs__nav-wrap {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        &:after {
+          background-color: $listBoxBorderColor;
+        }
+      }
+      .el-tabs__item {
+        font-size: 18px;
+        font-weight: 600;
+        transition: $setTransition;
+        outline: none;
+        height: auto;
+        &.is-active {
+          color: $primaryColor;
+          outline: none;
+        }
+        &:hover {
+          color: $primaryColor;
+        }
+        &:focus.is-active.is-focus:not(:active) {
+          box-shadow: none;
+        }
+        .label > img {
+          width: 52px;
+          height: auto;
+          margin-right: 8px;
+        }
+      }
+      .el-tabs__active-bar {
+        background-color: $primaryColor;
+      }
+      .el-tabs__content {
+        padding: 10px 0px 0px;
+        overflow: visible;
+        .el-tab-pane {
+          position: relative;
+        }
+      }
+    }
+
+    .select-group {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 20px;
+      margin-bottom: 20px;
+      @include large {
+        flex-direction: column;
+      }
+      @include medium {
+        flex-direction: column;
+      }
+      @include small {
+        flex-direction: column;
+      }
+      @include extraSmall {
+        flex-direction: column;
+      }
+      .city-name {
+        width: 32%;
+        height: auto;
+        padding: 10px 16px;
+        font-size: 16px;
+        appearance: none;
+        color: $textPrimaryColor;
+        background-image: linear-gradient(
+            45deg,
+            transparent 50%,
+            $primaryColor 0
+          ),
+          linear-gradient(135deg, $primaryColor 50%, transparent 0),
+          linear-gradient(90deg, #e6a652, #e6a652);
+        background-position: calc(100% - 20px) calc(1em + 2px),
+          calc(100% - 15px) calc(1em + 2px), calc(100% - 2.5em) 0.5em;
+        background-size: 5px 5px, 5px 5px, 1px 1.5em;
+        background-repeat: no-repeat;
+        letter-spacing: 1px;
+        border: 1px solid #e6a652;
+        border-radius: 4px;
+        @include large {
+          width: 100%;
+          margin-bottom: 15px;
+        }
+        @include medium {
+          width: 100%;
+          margin-bottom: 15px;
+        }
+        @include small {
+          width: 100%;
+          margin-bottom: 15px;
+          padding: 15px 16px;
+        }
+        @include extraSmall {
+          width: 100%;
+          margin-bottom: 15px;
+          padding: 15px 16px;
+        }
+        &:focus {
+          border: 1px solid #e6a652 !important;
+        }
+      }
+      .selected-route {
+        width: 65%;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        @include large {
+          width: 100%;
+        }
+        @include medium {
+          width: 100%;
+        }
+        @include small {
+          width: 100%;
+        }
+        @include extraSmall {
+          width: 100%;
+        }
+        p {
+          text-align: left;
+          margin-right: 5px;
+        }
+        .is-selected {
+          width: 100%;
+          height: auto;
+          padding: 10px 16px;
+          font-size: 16px;
+          appearance: none;
+          text-align: left;
+          letter-spacing: 1px;
+          background-color: #ffffff;
+          border-radius: 4px;
+          border: 1px solid #c7c6c6;
+          color: #b3b3b3;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          @include small {
+            padding: 15px 16px;
+          }
+          @include extraSmall {
+            padding: 15px 16px;
+          }
+          &:focus {
+            border: 1px solid #e6a652 !important;
+          }
+          &.active {
+            color: $primaryColor;
+          }
+        }
+      }
+      .location-btn {
+        width: 64.5%;
+        height: auto;
+        background-color: #d7d7d7;
+        border-radius: 4px;
+        border: 1px solid #c7c6c6;
+        color: $textPrimaryColor;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: 600;
+        transition: $setTransition;
+        @include large {
+          width: 100%;
+        }
+        @include medium {
+          width: 100%;
+        }
+        @include small {
+          width: 100%;
+        }
+        @include extraSmall {
+          width: 100%;
+        }
+        &:hover {
+          cursor: pointer;
+          span {
+            color: $secondaryColor;
+          }
+        }
+        .material-icons {
+          transition: $setTransition;
+        }
+        .txt {
+          padding: 10px 16px 10px 5px;
+          font-size: 16px;
+          color: $textPrimaryColor;
+          transition: $setTransition;
+          @include small {
+            padding: 16px 16px 16px 5px;
+          }
+          @include extraSmall {
+            padding: 16px 16px 16px 5px;
+          }
+        }
+      }
+    }
+
+    .view {
+      height: 100%;
+      min-height: 100%;
+      &.loading {
+        height: 100vh;
+        min-height: 100%;
+        .loading-item {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          flex-direction: column;
+          padding-top: 50px;
+          animation: flash 1.5s linear infinite;
+          .loading-txt {
+            font-size: 22px;
+            font-weight: 600;
+            color: $textPrimaryColor;
+            margin-top: 10px;
+          }
+        }
+      }
+    }
+
+    .list-box {
+      font-family: '微軟正黑體', Helvetica, Arial, sans-serif;
+      transition: $setTransition;
+      &:hover {
+        cursor: pointer;
+        .inner {
+          border: 2px solid $primaryColor;
+        }
+      }
+      &.selected {
+        .inner {
+          border: 2px solid $primaryColor;
+          h3 {
+            color: $primaryColor;
+          }
+        }
+        .direction {
+          background-color: $primaryColor;
+        }
+        &:hover {
+          cursor: default;
+          h3 {
+            color: $primaryColor;
+          }
+        }
+      }
+      &.route-list {
+        .direction {
+          width: 60px;
+          padding: 6px 6px;
+          border-radius: 50px;
+          overflow: hidden;
+          color: #fff;
+          background-color: #a5a5a5;
+          position: absolute;
+          right: 20px;
+          top: -16px;
+          font-size: 14px;
+          letter-spacing: 2px;
+        }
+        .content {
+          position: relative;
+          padding: 20px 20px;
+          @include small {
+            padding: 20px 15px;
+          }
+          @include extraSmall {
+            padding: 20px 15px;
+          }
+        }
+        .info-wrap {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          @include medium {
+            flex-direction: column;
+            align-items: flex-start;
+          }
+          @include small {
+            flex-direction: column;
+            align-items: flex-start;
+          }
+          @include extraSmall {
+            flex-direction: column;
+            align-items: flex-start;
+          }
+          img {
+            width: 80px;
+            height: 80px;
+            opacity: 0.7;
+          }
+        }
+      }
+      &.station-list {
+        .header {
+          padding: 20px 20px 0;
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          @include small {
+            padding: 20px 15px 0;
+          }
+          @include extraSmall {
+            padding: 20px 15px 0;
+          }
+        }
+        .top {
+          display: flex;
+          justify-content: flex-start;
+          align-items: center;
+          width: 100%;
+          @include medium {
+            justify-content: space-between;
+          }
+          @include small {
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: flex-start;
+          }
+          @include extraSmall {
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: flex-start;
+          }
+        }
+        .bike-status {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          @include medium {
+            flex-direction: column;
+            align-items: flex-end;
+          }
+          @include small {
+            align-items: flex-end;
+            margin-top: 8px;
+          }
+          @include extraSmall {
+            align-items: flex-end;
+            margin-top: 8px;
+          }
+        }
+        .service-type {
+          .type {
+            width: auto;
+            padding: 2px 8px 2px;
+            overflow: hidden;
+            color: $textSecondaryColor;
+            font-size: 14px;
+            font-family: 'Rubik', Helvetica, Arial, sans-serif;
+            border-right: 1px solid #bfbfbf;
+            @include medium {
+              border-right: none;
+              padding: 2px;
+            }
+          }
+        }
+        .service-status {
+          .status {
+            width: auto;
+            padding: 8px 20px;
+            border-radius: 50px;
+            overflow: hidden;
+            color: $textPrimaryColor;
+            font-size: 14px;
+            background-color: $listBoxBgColor;
+            text-indent: 10px;
+            margin-right: 10px;
+            position: relative;
+            @include medium {
+              padding: 15px 30px;
+            }
+            @include small {
+              padding: 10px 30px;
+            }
+            @include extraSmall {
+              padding: 10px 30px;
+            }
+            &:after {
+              content: '';
+              position: absolute;
+              top: 50%;
+              left: 16px;
+              width: 8px;
+              height: 8px;
+              transform: translateY(-50%);
+              border-radius: 50%;
+              @include medium {
+                left: 26px;
+              }
+              @include small {
+                left: 26px;
+              }
+              @include extraSmall {
+                left: 26px;
+              }
+            }
+            &.status-0 {
+              color: $secondaryColor;
+              background-color: lighten($secondaryColor, 50%);
+              &:after {
+                background-color: $secondaryColor;
+              }
+            }
+            &.status-1 {
+              color: $primaryColor;
+              background-color: lighten($primaryColor, 42%);
+              &:after {
+                background-color: $primaryColor;
+              }
+            }
+            &.status-2 {
+              color: $textSecondaryColor;
+              background-color: lighten($textSecondaryColor, 60%);
+              &:after {
+                background-color: $textSecondaryColor;
+              }
+            }
+          }
+        }
+        .bike-capacity {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          padding: 2px 6px 2px;
+          @include large {
+            flex-direction: column;
+          }
+          @include medium {
+            flex-direction: column;
+            padding: 2px 0;
+          }
+          .txt {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: $textSecondaryColor;
+            font-size: 14px;
+            p {
+              margin: 0;
+              @include large {
+                display: none;
+              }
+              @include medium {
+                display: none;
+              }
+            }
+          }
+          .qty {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          }
+          .capacity {
+            margin: 0 3px;
+            font-family: 'Rubik', Helvetica, Arial, sans-serif;
+            font-weight: 600;
+            font-size: 20px;
+            color: $textSecondaryColor;
+            @include large {
+              font-size: 16px;
+            }
+            @include medium {
+              font-size: 16px;
+            }
+            @include small {
+              font-size: 16px;
+            }
+            @include extraSmall {
+              font-size: 16px;
+            }
+          }
+          .unit {
+            color: $textSecondaryColor;
+          }
+        }
+        .content {
+          position: relative;
+          padding: 5px 20px 20px;
+          @include small {
+            padding: 5px 15px 10px;
+          }
+          @include extraSmall {
+            padding: 5px 15px 20px;
+          }
+        }
+        .name {
+          padding: 15px 0 6px 0;
+          border-bottom: none;
+          width: 100%;
+          border-bottom: 1px solid $listBoxBorderColor;
+          h3 {
+            padding-bottom: 0;
+            border-bottom: none;
+          }
+        }
+        .address {
+          color: lighten($textPrimaryColor, 35%);
+          font-size: 16px;
+          font-weight: 600;
+          text-align: left;
+          line-height: 1.6;
+          display: flex;
+          justify-content: flex-start;
+          align-items: flex-start;
+          margin: 6px 8px 15px 0;
+        }
+        .info-wrap {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        }
+        .bike-info {
+          display: flex;
+          justify-content: flex-start;
+          align-items: center;
+          @include medium {
+            align-items: flex-start;
+            flex-direction: column;
+            width: 100%;
+          }
+          @include small {
+            align-items: flex-start;
+            justify-content: space-between;
+            width: 100%;
+          }
+          @include extraSmall {
+            align-items: flex-start;
+            flex-direction: column;
+            width: 100%;
+          }
+        }
+        .bike-style {
+          display: flex;
+          justify-content: flex-start;
+          align-items: center;
+          background-color: $listBoxBgColor;
+          padding: 10px 20px;
+          border-radius: 8px;
+          margin-left: 15px;
+          @include large {
+            flex-direction: column;
+          }
+          @include medium {
+            margin-left: 0;
+            margin-bottom: 10px;
+            width: 100%;
+            box-sizing: border-box;
+          }
+          @include small {
+            margin-left: 0;
+            margin-bottom: 10px;
+            width: 48%;
+            box-sizing: border-box;
+          }
+          @include extraSmall {
+            margin-left: 0;
+            margin-bottom: 10px;
+            width: 100%;
+            box-sizing: border-box;
+          }
+          &:first-child {
+            margin-left: 0;
+          }
+          &:last-child {
+            @include small {
+              margin-bottom: 0;
+            }
+            @include extraSmall {
+              margin-bottom: 0;
+            }
+          }
+          .txt {
+            margin-top: 0;
+            margin-bottom: 0;
+            margin-right: 8px;
+            font-size: 14px;
+            color: #7c7c7c;
+          }
+          .style-unit {
+            display: flex;
+            align-items: center;
+            font-family: 'Rubik', Helvetica, Arial, sans-serif;
+          }
+          .unit {
+            font-size: 18px;
+            font-weight: 600;
+            margin-left: 4px;
+            color: #ff9205;
+            opacity: 0.7;
+            font-family: '微軟正黑體', Helvetica, Arial, sans-serif;
+          }
+          .bike {
+            color: #ff9205;
+            font-size: 38px;
+            font-weight: 600;
+            margin: 0;
+          }
+          &.bike-rent {
+            .bike {
+              color: $primaryColor;
+            }
+            .unit {
+              color: $primaryColor;
+            }
+          }
+          &.bike-return {
+            .bike {
+              color: $secondaryColor;
+            }
+            .unit {
+              color: $secondaryColor;
+            }
+          }
+        }
+      }
+      .inner {
+        position: relative;
+        display: block;
+        border-radius: 6px;
+        overflow: hidden;
+        margin-bottom: 30px;
+        background: #fff;
+        box-shadow: 0 0 20px 0 rgba(62, 28, 131, 0.2);
+        border: 2px solid transparent;
+        transition: $setTransition;
+      }
+      .name {
+        display: block;
+        padding: 20px 20px 0;
+        overflow: hidden;
+        position: relative;
+        @include small {
+          padding: 20px 15px 0;
+        }
+        @include extraSmall {
+          padding: 20px 15px 0;
+        }
+        h3 {
+          padding-bottom: 20px;
+          border-bottom: 1px solid $listBoxBorderColor;
+          margin: 0;
+          color: $textPrimaryColor;
+          line-height: 1.3;
+          font-size: 22px;
+          box-sizing: border-box;
+          display: flex;
+          justify-content: flex-start;
+          align-items: center;
+          text-align: left;
+          transition: $setTransition;
+        }
+      }
+    }
+
+    .road-info {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      flex-direction: column;
+      font-size: 16px;
+      font-weight: 600;
+      @include medium {
+        margin-bottom: 20px;
+      }
+      @include small {
+        margin-bottom: 20px;
+      }
+      @include extraSmall {
+        margin-bottom: 20px;
+      }
+      .start {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: lighten($textPrimaryColor, 20%);
+        margin-bottom: 10px;
+        @include medium {
+          margin-bottom: 5px;
+        }
+        @include small {
+          margin-bottom: 5px;
+        }
+        @include extraSmall {
+          margin-bottom: 5px;
+        }
+        .material-icons {
+          color: $primaryColor;
+          margin-right: 5px;
+        }
+        &.no-data {
+          color: #a5a5a5;
+          .material-icons {
+            color: #a5a5a5;
+          }
+        }
+      }
+      .end {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: lighten($textPrimaryColor, 20%);
+        .material-icons {
+          color: $secondaryColor;
+          margin-right: 5px;
+        }
+        &.no-data {
+          color: #a5a5a5;
+          .material-icons {
+            color: #a5a5a5;
+          }
+        }
+      }
+    }
+
+    .length-info {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      background-color: $listBoxBgColor;
+      padding: 10px 20px;
+      border-radius: 8px;
+      @include large {
+        padding: 10px 10px;
+      }
+      @include medium {
+        flex-direction: row;
+        width: 100%;
+      }
+      @include small {
+        flex-direction: row;
+        width: 100%;
+        box-sizing: border-box;
+      }
+      @include extraSmall {
+        flex-direction: row;
+        width: 100%;
+        box-sizing: border-box;
+      }
+      .txt {
+        margin-top: 0;
+        margin-bottom: 0;
+        font-size: 16px;
+        font-weight: 600;
+        color: lighten($textPrimaryColor, 30%);
+        @include medium {
+          margin-right: 8px;
+        }
+        @include small {
+          margin-right: 8px;
+        }
+        @include extraSmall {
+          margin-right: 8px;
+        }
+      }
+      .length {
+        display: flex;
+        align-items: baseline;
+        font-family: 'Rubik', Helvetica, Arial, sans-serif;
+      }
+      .distance {
+        color: $primaryColor;
+        font-size: 42px;
+        font-weight: 600;
+        margin: 0;
+        @include large {
+          font-size: 36px;
+        }
+        @include small {
+          font-size: 32px;
+        }
+        @include extraSmall {
+          font-size: 32px;
+        }
+      }
+      .unit {
+        font-size: 22px;
+        font-weight: 600;
+        margin-left: 2px;
+        color: $primaryColor;
+        opacity: 0.7;
+      }
+    }
+  }
+
+  .copyright {
+    padding: 20px 0;
+    text-align: center;
+    font-size: 14px;
+    letter-spacing: 0.28px;
+    color: #818181;
+    line-height: 1.3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: $textPrimaryColor;
+    position: relative;
+    bottom: 0;
+
+    .material-icons {
+      font-size: 16px;
+      margin: 0 5px;
+    }
+    a {
+      font-size: 14px;
+      letter-spacing: 0.42px;
+      color: #818181;
+      font-weight: 500;
+      display: inline-block;
+      margin-left: 5px;
+      transition: $setTransition;
+      &:hover {
+        color: $primaryColor;
+      }
+    }
+  }
+}
+
+.route-popup {
+  border-radius: 12px;
+  overflow: hidden;
+  text-align: center;
+  h2 {
+    margin: 0;
+    padding: 20px 20px 15px;
+    background-color: $textPrimaryColor;
+    color: #fff;
+  }
+  .info {
+    padding: 15px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    span {
+      display: block;
+      padding: 8px 5px;
+      text-align: center;
+      color: #ffffff;
+      border-radius: 6px;
+      letter-spacing: 10px;
+      text-indent: 10px;
+    }
+    p {
+      margin: 8px 0 0;
+      font-size: 20px;
+      font-weight: 600;
+    }
+  }
+  &.start-popup {
+    span {
+      background-color: $primaryColor;
+    }
+    p {
+      color: $primaryColor;
+    }
+  }
+  &.end-popup {
+    span {
+      background-color: $secondaryColor;
+    }
+    p {
+      color: $secondaryColor;
+    }
+  }
+}
+
+.station-popup {
+  border-radius: 12px;
+  overflow: hidden;
+  text-align: center;
+  h2 {
+    margin: 0;
+    padding: 20px 20px 15px;
+    background-color: $textPrimaryColor;
+    color: #fff;
+  }
+  .top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 15px;
+    @include small {
+      flex-direction: column;
+    }
+    @include extraSmall {
+      flex-direction: column;
+    }
+    .service-status {
+      position: relative;
+      .status {
+        width: auto;
+        padding: 8px 16px 8px 12px;
+        border-radius: 50px;
+        overflow: hidden;
+        color: $textPrimaryColor;
+        font-size: 14px;
+        background-color: $listBoxBgColor;
+        text-indent: 16px;
+        margin-right: 10px;
+        position: relative;
+        @include small {
+          margin-right: 0;
+          margin-bottom: 5px;
+        }
+        @include extraSmall {
+          margin-right: 0;
+          margin-bottom: 5px;
+        }
+        &:after {
+          content: '';
+          position: absolute;
+          top: 50%;
+          left: 16px;
+          width: 8px;
+          height: 8px;
+          transform: translateY(-50%);
+          border-radius: 50%;
+        }
+        &.status-0 {
+          color: $secondaryColor;
+          background-color: lighten($secondaryColor, 50%);
+          &:after {
+            background-color: $secondaryColor;
+          }
+        }
+        &.status-1 {
+          color: $primaryColor;
+          background-color: lighten($primaryColor, 42%);
+          &:after {
+            background-color: $primaryColor;
+          }
+        }
+        &.status-2 {
+          color: $textSecondaryColor;
+          background-color: lighten($textSecondaryColor, 60%);
+          &:after {
+            background-color: $textSecondaryColor;
+          }
+        }
+      }
+    }
+    .bike-status {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-left: 5px;
+      .type {
+        width: auto;
+        padding: 2px 8px 2px;
+        overflow: hidden;
+        color: $textSecondaryColor;
+        font-size: 14px;
+        font-family: 'Rubik', Helvetica, Arial, sans-serif;
+        border-right: 1px solid #bfbfbf;
+      }
+      .bike-capacity {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 2px 8px 2px;
+        .txt {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          color: $textSecondaryColor;
+          font-size: 14px;
+          p {
+            margin: 0;
+          }
+        }
+        .qty {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          .capacity {
+            margin: 0 3px;
+            font-family: 'Rubik', Helvetica, Arial, sans-serif;
+            font-weight: 600;
+            font-size: 16px;
+            color: $textSecondaryColor;
+          }
+          .unit {
+            color: $textSecondaryColor;
+          }
+        }
+      }
+    }
+  }
+
+  .station-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+    padding: 0px 15px 15px;
+    .station-item {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      width: 42%;
+      padding: 8px;
+      border-radius: 6px;
+      background: $listBoxBgColor;
+      @include small {
+        width: 47%;
+      }
+      @include extraSmall {
+        width: 47%;
+      }
+      .title {
+        display: block;
+        margin: 0;
+        text-align: center;
+        border-radius: 6px;
+        margin-bottom: 2px;
+        width: 75%;
+        &.rent {
+          color: $primaryColor;
+        }
+        &.return {
+          color: $secondaryColor;
+        }
+      }
+    }
+    .quantity {
+      font-size: 30px;
+      font-weight: 600;
+      font-family: 'Rubik', Helvetica, Arial, sans-serif;
+      margin: 0;
+      line-height: 1;
+      display: flex;
+      align-items: center;
+      &.rent-qty {
+        color: $primaryColor;
+      }
+      &.return-qty {
+        color: $secondaryColor;
+      }
+    }
+  }
+}

@@ -1,0 +1,124 @@
+.scroll-top {
+  position: fixed;
+  left: calc(60% - 40px);
+  bottom: -82px;
+  z-index: 99;
+  transition: $setTransition;
+  @include medium {
+    left: calc(55% - 40px);
+  }
+  @include small {
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(40px + 100px);
+  }
+  @include extraSmall {
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(40px + 100px);
+  }
+  &.fixed {
+    position: fixed;
+    left: calc(60% - 40px);
+    bottom: 82px;
+    @include medium {
+      left: calc(55% - 40px);
+    }
+    @include small {
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: 30px;
+      width: calc(40px + 100px);
+    }
+    @include extraSmall {
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: 30px;
+      width: calc(40px + 100px);
+    }
+  }
+  &:hover {
+    color: #fff;
+    cursor: pointer;
+    .arrow {
+      animation: ani-scrollTop 0.3s linear infinite;
+    }
+    span {
+      top: 0px;
+      visibility: visible;
+      opacity: 1;
+    }
+  }
+  .arrow {
+    position: absolute;
+    width: 12px;
+    height: 14px;
+    background-image: url('~@/assets/images/scroll_top_bg.png');
+    background-size: contain;
+    background-position: 0 0;
+    top: 12px;
+    left: 16px;
+    z-index: 1;
+    transition: background-position 0.3s linear 0s;
+    @include small {
+      top: 17px;
+    }
+    @include extraSmall {
+      top: 17px;
+    }
+  }
+  .bg {
+    width: 40px;
+    height: 40px;
+    background: $textPrimaryColor;
+    border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px;
+    box-shadow: 0 0 20px 0 rgba(62, 28, 131, 0.2);
+    @include small {
+      height: 50px;
+    }
+    @include extraSmall {
+      height: 50px;
+    }
+  }
+  span {
+    opacity: 0;
+    visibility: hidden;
+    position: absolute;
+    top: 30px;
+    left: 40px;
+    padding: 12px 12px 12px 6px;
+    width: 100px;
+    color: #fff;
+    box-shadow: 0 0 20px 0 rgba(62, 28, 131, 0.2);
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+    font-size: 14px;
+    background-color: $textPrimaryColor;
+    transition: $setTransition;
+    @include small {
+      opacity: 1;
+      top: 0px;
+      visibility: visible;
+      text-align: left;
+      width: 100px;
+      height: 50px;
+      box-sizing: border-box;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+    }
+    @include extraSmall {
+      opacity: 1;
+      top: 0px;
+      visibility: visible;
+      text-align: left;
+      width: 100px;
+      height: 50px;
+      box-sizing: border-box;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+    }
+  }
+}
