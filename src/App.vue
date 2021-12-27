@@ -411,6 +411,8 @@ import L from 'leaflet'
 import 'leaflet.markercluster/dist/MarkerCluster.css'
 import 'leaflet.markercluster/dist/MarkerCluster.Default.css'
 import 'leaflet.markercluster'
+import 'leaflet-gesture-handling/dist/leaflet-gesture-handling.css'
+import { GestureHandling } from 'leaflet-gesture-handling'
 import { antPath } from 'leaflet-ant-path'
 import jsSHA from 'jssha'
 import Wkt from 'wicket'
@@ -491,7 +493,8 @@ export default {
       mapOptions: {
         center: [23.92275, 120.98979],
         zoom: 8,
-        zoomControl: true
+        zoomControl: true,
+        gestureHandling: true
       },
       longitude: null,
       latitude: null,
@@ -577,6 +580,7 @@ export default {
       this.bikeStationTotalPages = this.filterBikeData.slice(start, end)
     },
     initMap() {
+      L.Map.addInitHook('addHandler', 'gestureHandling', GestureHandling)
       this.map = new L.map('map', this.mapOptions).setView(this.mapOptions.center, this.mapOptions.zoom)
       L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
         attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
