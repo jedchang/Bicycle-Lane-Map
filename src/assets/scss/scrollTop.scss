@@ -4,9 +4,6 @@
   bottom: -82px;
   z-index: 99;
   transition: $setTransition;
-  @include medium {
-    left: calc(55% - 40px);
-  }
   @include small {
     left: 50%;
     transform: translateX(-50%);
@@ -21,20 +18,25 @@
     position: fixed;
     left: calc(60% - 40px);
     bottom: 82px;
+    @include large {
+      left: calc(55% - 40px);
+    }
     @include medium {
       left: calc(55% - 40px);
     }
     @include small {
-      left: 50%;
-      transform: translateX(-50%);
-      bottom: 30px;
-      width: calc(40px + 100px);
+      position: absolute;
+      left: 0;
+      bottom: -105px;
+      transform: translateX(0);
+      width: 100%;
     }
     @include extraSmall {
-      left: 50%;
-      transform: translateX(-50%);
-      bottom: 30px;
-      width: calc(40px + 100px);
+      position: absolute;
+      left: 0;
+      bottom: -105px;
+      transform: translateX(0);
+      width: 100%;
     }
   }
   &:hover {
@@ -62,9 +64,11 @@
     transition: background-position 0.3s linear 0s;
     @include small {
       top: 17px;
+      left: 35%;
     }
     @include extraSmall {
       top: 17px;
+      left: 35%;
     }
   }
   .bg {
@@ -75,9 +79,11 @@
     border-bottom-left-radius: 6px;
     box-shadow: 0 0 20px 0 rgba(62, 28, 131, 0.2);
     @include small {
+      width: 40%;
       height: 50px;
     }
     @include extraSmall {
+      width: 40%;
       height: 50px;
     }
   }
@@ -101,7 +107,8 @@
       top: 0px;
       visibility: visible;
       text-align: left;
-      width: 100px;
+      width: 60%;
+      left: 40%;
       height: 50px;
       box-sizing: border-box;
       display: flex;
@@ -113,7 +120,8 @@
       top: 0px;
       visibility: visible;
       text-align: left;
-      width: 100px;
+      width: 60%;
+      left: 40%;
       height: 50px;
       box-sizing: border-box;
       display: flex;

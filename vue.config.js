@@ -5,7 +5,7 @@ module.exports = {
     config.plugin('html').tap(args => {
       args[0].title = 'Bicycle Lane Map'
       args[0].keywords = '自行車道地圖資訊整合網'
-      args[0].description = '即時更新自行車租借資訊，不怕到站車位空！'
+      args[0].description = '即時更新自行車租借資訊，不怕到站車位空!'
       return args
     })
   },

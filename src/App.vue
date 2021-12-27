@@ -102,34 +102,34 @@
                   class="view"
                 >
                   <div
-                    v-for="(r,index) in bikeRouteData"
+                    v-for="(br,index) in bikeRouteTotalPages"
                     :key="index"
                     class="list-box route-list"
-                    :class="{selected : bikeRouteName === r.RouteName}"
-                    @click.prevent="clickBikeRoute(r)"
+                    :class="{selected : bikeRouteName === br.RouteName}"
+                    @click.prevent="clickBikeRoute(br)"
                   >
                     <div class="inner">
                       <div class="name">
-                        <h3>{{ r.RouteName }}</h3>
+                        <h3>{{ br.RouteName }}</h3>
                       </div>
                       <div class="content">
                         <div
-                          v-if="r.Direction"
+                          v-if="br.Direction"
                           class="direction"
                         >
-                          {{ r.Direction }}
+                          {{ br.Direction }}
                         </div>
                         <div class="info-wrap">
                           <div class="road-info">
                             <div
-                              v-if="r.RoadSectionStart"
+                              v-if="br.RoadSectionStart"
                               class="start"
                             >
                               <span class="material-icons">
                                 place
                               </span>
                               <span>
-                                {{ r.RoadSectionStart }}
+                                {{ br.RoadSectionStart }}
                               </span>
                             </div>
                             <div
@@ -144,14 +144,14 @@
                               </span>
                             </div>
                             <div
-                              v-if="r.RoadSectionEnd"
+                              v-if="br.RoadSectionEnd"
                               class="end"
                             >
                               <span class="material-icons">
                                 flag
                               </span>
                               <span>
-                                {{ r.RoadSectionEnd }}
+                                {{ br.RoadSectionEnd }}
                               </span>
                             </div>
                             <div
@@ -174,7 +174,7 @@
                             </p>
                             <div class="length">
                               <p class="distance">
-                                {{ r.CyclingLength | distance }}
+                                {{ br.CyclingLength | distance }}
                               </p>
                               <span class="unit">m</span>
                             </div>
@@ -183,6 +183,14 @@
                       </div>
                     </div>
                   </div>
+                  <el-pagination
+                    background
+                    layout="prev, pager, next"
+                    :current-page="bikeRouteCurrentPage"
+                    :page-size="bikeRoutePagesize"
+                    :total="bikeRouteData.length"
+                    @current-change="bikeRouteCurrentChange"
+                  />
                 </div>
                 <div
                   v-else
@@ -252,30 +260,30 @@
                   class="view"
                 >
                   <div
-                    v-for="(f,index) in filterBikeData"
+                    v-for="(bs,index) in bikeStationTotalPages"
                     :key="index"
                     class="list-box station-list"
-                    :class="{selected : bikeStationName === f.StationName}"
-                    @click.prevent="clickBikeStation(f)"
+                    :class="{selected : bikeStationName === bs.StationName}"
+                    @click.prevent="clickBikeStation(bs)"
                   >
                     <div class="inner">
                       <div class="header">
                         <div class="top">
                           <div class="service-status">
                             <div
-                              v-if="f.ServiceStatus === 0"
+                              v-if="bs.ServiceStatus === 0"
                               class="status status-0"
                             >
                               停止營運
                             </div>
                             <div
-                              v-if="f.ServiceStatus === 1"
+                              v-if="bs.ServiceStatus === 1"
                               class="status status-1"
                             >
                               正常營運
                             </div>
                             <div
-                              v-if="f.ServiceStatus === 2"
+                              v-if="bs.ServiceStatus === 2"
                               class="status status-2"
                             >
                               暫停營運
@@ -284,13 +292,13 @@
                           <div class="bike-status">
                             <div class="service-type">
                               <div
-                                v-if="f.ServiceType === 1"
+                                v-if="bs.ServiceType === 1"
                                 class="type type-1"
                               >
                                 YouBike 1.0
                               </div>
                               <div
-                                v-if="f.ServiceType === 2"
+                                v-if="bs.ServiceType === 2"
                                 class="type type-2"
                               >
                                 YouBike 2.0
@@ -302,7 +310,7 @@
                               </div>
                               <div class="qty">
                                 <div class="capacity">
-                                  {{ f.BikesCapacity }}
+                                  {{ bs.BikesCapacity }}
                                 </div>
                                 <div class="unit">
                                   輛
@@ -312,10 +320,10 @@
                           </div>
                         </div>
                         <div class="name">
-                          <h3>{{ f.StationName }}</h3>
+                          <h3>{{ bs.StationName }}</h3>
                         </div>
                         <p class="address">
-                          {{ f.StationAddress.Zh_tw }}
+                          {{ bs.StationAddress.Zh_tw }}
                         </p>
                       </div>
                       <div class="content">
@@ -329,7 +337,7 @@
                               </p>
                               <div class="style-unit rent">
                                 <p class="bike">
-                                  {{ f.AvailableRentBikes }}
+                                  {{ bs.AvailableRentBikes }}
                                 </p>
                                 <span class="unit">輛</span>
                               </div>
@@ -342,7 +350,7 @@
                               </p>
                               <div class="style-unit return">
                                 <p class="bike">
-                                  {{ f.AvailableReturnBikes }}
+                                  {{ bs.AvailableReturnBikes }}
                                 </p>
                                 <span class="unit">輛</span>
                               </div>
@@ -352,6 +360,14 @@
                       </div>
                     </div>
                   </div>
+                  <el-pagination
+                    background
+                    layout="prev, pager, next"
+                    :current-page="bikeStationCurrentPage"
+                    :page-size="bikeStationPagesize"
+                    :total="filterBikeData.length"
+                    @current-change="bikeStationCurrentChange"
+                  />
                 </div>
                 <div
                   v-else
@@ -367,15 +383,21 @@
             </el-tabs>
           </div>
           <div class="copyright">
-            © 2021 All rights reserved. Design & Code with
-            <span class="material-icons">
-              favorite
-            </span>
-            by
-            <a
-              href="https://github.com/jedchang"
-              target="_blank"
-            >Jed Chang</a>
+            <div class="container">
+              <div class="inner">
+                <p>© 2021 All rights reserved. Design & Code with</p>
+                <p>
+                  <span class="material-icons">
+                    favorite
+                  </span>
+                  by
+                  <a
+                    href="https://github.com/jedchang"
+                    target="_blank"
+                  >Jed Chang</a>
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -394,9 +416,9 @@ import jsSHA from 'jssha'
 import Wkt from 'wicket'
 import city from './utils/city.json'
 import cityFew from './utils/cityStation.json'
+
 import ScrollTop from '@/components/ScrollTop'
 
-// 客製 icon
 const bikeIcon = new L.icon({
   iconUrl: require('@/assets/images/icon_marker_bike.png'),
   iconSize: [49, 63],
@@ -496,7 +518,14 @@ export default {
       serviceType: '',
       serviceStatus: '',
       bikesCapacity: '',
-      statusCode: null
+      statusCode: null,
+      markerCluster: createMarkerCluster(),
+      bikeRouteCurrentPage: 1,
+      bikeRoutePagesize: 30,
+      bikeRouteTotalPages: [],
+      bikeStationCurrentPage: 1,
+      bikeStationPagesize: 40,
+      bikeStationTotalPages: []
     }
   },
   watch: {
@@ -519,6 +548,34 @@ export default {
     })
   },
   methods: {
+    bikeRouteCurrentChange(currentPage) {
+      this.isLoading = true
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+      this.bikeRouteCurrentPage = currentPage
+      setTimeout(() => {
+        this.getBikeRoutePages()
+        this.isLoading = false
+      }, 1000)
+    },
+    bikeStationCurrentChange(currentPage) {
+      this.isLoading = true
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+      this.bikeStationCurrentPage = currentPage
+      setTimeout(() => {
+        this.getBikeStationPages()
+        this.isLoading = false
+      }, 1000)
+    },
+    getBikeRoutePages() {
+      const start = (this.bikeRouteCurrentPage - 1) * this.bikeRoutePagesize
+      const end = start + this.bikeRoutePagesize
+      this.bikeRouteTotalPages = this.bikeRouteData.slice(start, end)
+    },
+    getBikeStationPages() {
+      const start = (this.bikeStationCurrentPage - 1) * this.bikeStationPagesize
+      const end = start + this.bikeStationPagesize
+      this.bikeStationTotalPages = this.filterBikeData.slice(start, end)
+    },
     initMap() {
       this.map = new L.map('map', this.mapOptions).setView(this.mapOptions.center, this.mapOptions.zoom)
       L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
@@ -537,6 +594,8 @@ export default {
         this.bikeRouteData = []
         this.cityName = 'Taipei'
         this.cityNameFew = 'Taipei'
+        this.bikeRouteCurrentPage = 1
+        this.map.closePopup()
         this.removeMarkers()
         this.getBikeStationData()
         if (this.screenWidth < 766) {
@@ -550,6 +609,8 @@ export default {
         this.bikeStationData = []
         this.cityName = 'Taipei'
         this.cityNameFew = 'Taipei'
+        this.bikeStationCurrentPage = 1
+        this.map.closePopup()
         this.removeMarkers()
         this.getBikeRouteData()
         if (this.screenWidth < 766) {
@@ -666,6 +727,7 @@ export default {
         .then(res => {
           this.bikeRouteData = res.data
           this.isLoading = false
+          this.getBikeRoutePages()
         })
         .catch(err => {
           console.log(err.response)
@@ -700,6 +762,7 @@ export default {
     },
     getBikeAvailableData () {
       this.isLoading = true
+
       const currentCityFew = this.cityNameFew
       if (this.screenWidth < 766) {
         this.mapOptions.center = [23.7072015, 121.0082785]
@@ -730,6 +793,7 @@ export default {
             })
           })
           this.map.addLayer(this.setMarkers(this.filterBikeData))
+          this.getBikeStationPages()
           this.isLoading = false
         })
         .catch(err => {
@@ -792,6 +856,7 @@ export default {
       ).addTo(this.map)
     },
     removeMarkers() {
+      this.markerCluster.clearLayers()
       this.map.eachLayer((layer) => {
         if (layer instanceof L.Marker) {
           this.map.removeLayer(layer)
@@ -799,7 +864,6 @@ export default {
       })
     },
     setMarkers(data) {
-      const markerCluster = createMarkerCluster()
       data.forEach(item => {
         const marker = createMarker(
           [item.StationPosition.PositionLat, item.StationPosition.PositionLon],
@@ -812,7 +876,7 @@ export default {
           })
           popup.setContent(this.popupContent(item))
           marker.bindPopup(popup)
-          markerCluster.addLayer(marker)
+          this.markerCluster.addLayer(marker)
         } else {
           const popup = createPopup({
             minWidth: 340,
@@ -820,10 +884,10 @@ export default {
           })
           popup.setContent(this.popupContent(item))
           marker.bindPopup(popup)
-          markerCluster.addLayer(marker)
+          this.markerCluster.addLayer(marker)
         }
       })
-      return markerCluster
+      return this.markerCluster
     },
     popupContent(item) {
       if (item.ServiceType === 1) {

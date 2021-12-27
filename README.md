@@ -36,7 +36,8 @@ https://jedchang.github.io/Bicycle-Lane-Map/
 - [x] 自行車道路線圖功能
 - [x] YouBike 租借站位點
 - [x] RWD 版面樣式
-- [ ] 分頁列表功能
+- [x] 分頁列表功能
+- [x] 手勢處理滾動
 
 ## Remark
 

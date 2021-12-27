@@ -124,6 +124,9 @@
   top: 0;
   left: 0;
   z-index: 1;
+  @include large {
+    width: 55%;
+  }
   @include medium {
     width: 55%;
   }
@@ -219,6 +222,9 @@
   min-height: 100vh;
   box-shadow: -6px -1px 15px 0 rgba(0, 0, 0, 0.1);
   z-index: 10;
+  @include large {
+    width: 45%;
+  }
   @include medium {
     width: 45%;
   }
@@ -243,17 +249,22 @@
     box-shadow: 0 9px 15px 0 rgba(0, 0, 0, 0.06);
     border-bottom: 1px solid #e5e5e5;
     z-index: 10;
+    @include large {
+      width: 45%;
+    }
     @include medium {
       width: 45%;
     }
     @include small {
       width: 100%;
-      position: relative;
+      position: sticky;
+      top: 0;
       padding: 20px 15px;
     }
     @include extraSmall {
       width: 100%;
-      position: relative;
+      position: sticky;
+      top: 0;
       padding: 20px 15px;
     }
     a {
@@ -288,10 +299,10 @@
       padding: 150px 25px 60px;
     }
     @include small {
-      padding: 55px 15px 60px;
+      padding: 55px 15px 120px;
     }
     @include extraSmall {
-      padding: 55px 15px 60px;
+      padding: 55px 15px 120px;
     }
 
     .el-tabs {
@@ -530,6 +541,138 @@
       }
     }
 
+    .el-pagination {
+      margin-top: 60px;
+      padding: 0;
+      @include large {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      @include medium {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      @include small {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      @include extraSmall {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      button {
+        @include small {
+          height: 40px;
+          line-height: 40px;
+        }
+        @include extraSmall {
+          height: 40px;
+          line-height: 40px;
+        }
+      }
+
+      .el-pager {
+        .active {
+          color: #fff;
+          background-color: $primaryColor;
+        }
+      }
+      &.is-background {
+        .el-pager {
+          @include large {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+          }
+          @include medium {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+          }
+          @include small {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+          }
+          @include extraSmall {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+          }
+          li {
+            @include large {
+              margin: 5px;
+            }
+            @include medium {
+              margin: 5px;
+            }
+            @include small {
+              margin: 5px;
+              min-width: 40px;
+              height: 40px;
+              line-height: 40px;
+            }
+            @include extraSmall {
+              margin: 5px;
+              min-width: 40px;
+              height: 40px;
+              line-height: 40px;
+            }
+          }
+          li:not(.disabled).active {
+            color: #fff;
+            background-color: $primaryColor;
+            &:hover {
+              color: #fff;
+              background-color: $primaryColor;
+            }
+          }
+          li:not(.disabled):hover {
+            color: $primaryColor;
+          }
+          .more {
+            &::before {
+              @include small {
+                line-height: 40px;
+              }
+              @include extraSmall {
+                line-height: 40px;
+              }
+            }
+          }
+        }
+
+        @include small {
+          .btn-prev {
+            margin: 0 5px 0 0;
+            min-width: 40px;
+          }
+          .btn-next {
+            margin: 0 5px 0 0;
+            min-width: 40px;
+          }
+        }
+        @include extraSmall {
+          .btn-prev {
+            margin: 0 0 0 5px;
+            min-width: 40px;
+          }
+          .btn-next {
+            margin: 0 0 0 5px;
+            min-width: 40px;
+          }
+        }
+      }
+    }
     .list-box {
       font-family: '微軟正黑體', Helvetica, Arial, sans-serif;
       transition: $setTransition;
@@ -1103,12 +1246,73 @@
     letter-spacing: 0.28px;
     color: #818181;
     line-height: 1.3;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     background-color: $textPrimaryColor;
     position: relative;
     bottom: 0;
+    @include large {
+      padding: 15px 0;
+    }
+    @include medium {
+      padding: 15px 0;
+    }
+    @include small {
+      padding: 15px 0;
+    }
+    @include extraSmall {
+      padding: 15px 0;
+    }
+
+    .inner {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      @include large {
+        flex-direction: column;
+      }
+      @include medium {
+        flex-direction: column;
+      }
+      @include small {
+        flex-direction: column;
+      }
+      @include extraSmall {
+        flex-direction: column;
+      }
+
+      p {
+        display: flex;
+        justify-content: center;
+        margin: 0;
+        @include large {
+          font-size: 14px;
+          margin: 0 0 5px 0;
+          &:last-child {
+            margin: 0;
+          }
+        }
+        @include medium {
+          font-size: 14px;
+          margin: 0 0 5px 0;
+          &:last-child {
+            margin: 0;
+          }
+        }
+        @include small {
+          font-size: 13px;
+          margin: 0 0 5px 0;
+          &:last-child {
+            margin: 0;
+          }
+        }
+        @include extraSmall {
+          font-size: 13px;
+          margin: 0 0 5px 0;
+          &:last-child {
+            margin: 0;
+          }
+        }
+      }
+    }
 
     .material-icons {
       font-size: 16px;
