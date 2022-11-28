@@ -1,7 +1,7 @@
 # Bicycle Lane Map
 
 自行車道地圖資訊整合網
-![](https://images2.imgbox.com/e5/e0/ER7SGyit_o.jpg)
+![](https://images2.imgbox.com/b4/e8/qvDWKCAr_o.jpg)
 
 ## Demo
 
@@ -24,7 +24,7 @@ https://jedchang.github.io/Bicycle-Lane-Map/
 - Leaflet
 - MarkerCluster
 - Element-ui
-- jsSHA
+- qs
 - Wicket
 - ESLint
 - SCSS
