@@ -166,9 +166,7 @@
                               </span>
                             </div>
                           </div>
-                          <div
-                            class="length-info"
-                          >
+                          <div class="length-info">
                             <p class="txt">
                               車道長度
                             </p>
@@ -329,9 +327,7 @@
                       <div class="content">
                         <div class="info-wrap">
                           <div class="bike-info">
-                            <div
-                              class="bike-style bike-rent"
-                            >
+                            <div class="bike-style bike-rent">
                               <p class="txt">
                                 可租借
                               </p>
@@ -342,9 +338,7 @@
                                 <span class="unit">輛</span>
                               </div>
                             </div>
-                            <div
-                              class="bike-style bike-return"
-                            >
+                            <div class="bike-style bike-return">
                               <p class="txt">
                                 可歸還
                               </p>
@@ -414,7 +408,6 @@ import 'leaflet.markercluster'
 import 'leaflet-gesture-handling/dist/leaflet-gesture-handling.css'
 import { GestureHandling } from 'leaflet-gesture-handling'
 import { antPath } from 'leaflet-ant-path'
-import jsSHA from 'jssha'
 import Wkt from 'wicket'
 import city from './utils/city.json'
 import cityFew from './utils/cityStation.json'
@@ -449,17 +442,17 @@ const bikeEndIcon = new L.icon({
   popupAnchor: [1, -60]
 })
 
-const createMarker = function(coordinate, options = {}) {
+const createMarker = function (coordinate, options = {}) {
   const marker = L.marker(coordinate, options)
   return marker
 }
 
-const createPopup = function(options) {
+const createPopup = function (options) {
   const popup = L.popup(options)
   return popup
 }
 
-const createMarkerCluster = function() {
+const createMarkerCluster = function () {
   return new L.markerClusterGroup({
     showCoverageOnHover: false,
     spiderfyOnMaxZoom: true,
@@ -474,7 +467,11 @@ const createMarkerCluster = function() {
         </div>
         .
       `
-      return L.divIcon({ html: html, className: 'clusterBikeIcon', iconSize: L.point(49, 49) })
+      return L.divIcon({
+        html: html,
+        className: 'clusterBikeIcon',
+        iconSize: L.point(49, 49)
+      })
     }
   })
 }
@@ -484,7 +481,7 @@ export default {
   components: {
     ScrollTop
   },
-  data () {
+  data() {
     return {
       isLoading: false,
       activeName: 'route-map',
@@ -532,11 +529,12 @@ export default {
     }
   },
   watch: {
-    screenWidth (val) {
+    screenWidth(val) {
       this.screenWidth = val
     }
   },
-  mounted () {
+  mounted() {
+    this.getAuthorizationHeader()
     window.addEventListener('scroll', this.handlerScroll)
     this.initMap()
     window.onresize = () => {
@@ -545,10 +543,6 @@ export default {
         this.screenWidth = window.screenWidth
       })()
     }
-    this.$nextTick(() => {
-      this.getBikeRouteData()
-      this.getBikeStationData()
-    })
   },
   methods: {
     bikeRouteCurrentChange(currentPage) {
@@ -581,14 +575,21 @@ export default {
     },
     initMap() {
       L.Map.addInitHook('addHandler', 'gestureHandling', GestureHandling)
-      this.map = new L.map('map', this.mapOptions).setView(this.mapOptions.center, this.mapOptions.zoom)
-      L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
-        attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-        id: 'mapbox/streets-v11',
-        tileSize: 512,
-        zoomOffset: -1,
-        accessToken: process.env.VUE_APP_ACCESSTOKEN
-      }).addTo(this.map)
+      this.map = new L.map('map', this.mapOptions).setView(
+        this.mapOptions.center,
+        this.mapOptions.zoom
+      )
+      L.tileLayer(
+        'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}',
+        {
+          attribution:
+            '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+          id: 'mapbox/streets-v11',
+          tileSize: 512,
+          zoomOffset: -1,
+          accessToken: process.env.VUE_APP_ACCESSTOKEN
+        }
+      ).addTo(this.map)
     },
     handlerClick(tab, event) {
       if (this.activeName === 'station-map') {
@@ -633,8 +634,12 @@ export default {
       this.routeEnd = []
     },
     handlerScroll() {
-      const routeMapScrollTop = document.querySelector('#pane-route-map .scroll-top')
-      const stationMapScrollTop = document.querySelector('#pane-station-map .scroll-top')
+      const routeMapScrollTop = document.querySelector(
+        '#pane-route-map .scroll-top'
+      )
+      const stationMapScrollTop = document.querySelector(
+        '#pane-station-map .scroll-top'
+      )
       if (this.activeName === 'route-map' && window.scrollY > 500) {
         routeMapScrollTop.classList.add('fixed')
       } else if (this.activeName === 'station-map' && window.scrollY > 500) {
@@ -672,7 +677,9 @@ export default {
           minWidth: 270,
           className: 'leaflet-popup'
         })
-        popup.setLatLng([this.latitude, this.longitude]).setContent(this.popupContent(item))
+        popup
+          .setLatLng([this.latitude, this.longitude])
+          .setContent(this.popupContent(item))
         this.map.openPopup(popup)
         this.map.panTo([this.latitude, this.longitude], 8)
         this.map.setView([this.latitude, this.longitude], 17)
@@ -682,32 +689,50 @@ export default {
           minWidth: 340,
           className: 'leaflet-popup'
         })
-        popup.setLatLng([this.latitude, this.longitude]).setContent(this.popupContent(item))
+        popup
+          .setLatLng([this.latitude, this.longitude])
+          .setContent(this.popupContent(item))
         this.map.openPopup(popup)
         this.map.panTo([this.latitude, this.longitude], 18)
         this.map.setView([this.latitude, this.longitude], 18)
       }
     },
-    getCurrentLocation () {
+    getCurrentLocation() {
       navigator.geolocation.getCurrentPosition(position => {
         this.longitude = position.coords.longitude
         this.latitude = position.coords.latitude
         this.map.setView([this.latitude, this.longitude], 18)
-        L.marker([this.latitude, this.longitude], { icon: locateIcon }).addTo(this.map)
+        L.marker([this.latitude, this.longitude], { icon: locateIcon }).addTo(
+          this.map
+        )
       })
     },
-    getAuthorizationHeader () {
-      const AppID = process.env.VUE_APP_APPID
-      const AppKey = process.env.VUE_APP_APPKEY
-      const GMTString = new Date().toGMTString()
-      const ShaObj = new jsSHA('SHA-1', 'TEXT')
-      ShaObj.setHMACKey(AppKey, 'TEXT')
-      ShaObj.update('x-date: ' + GMTString)
-      const HMAC = ShaObj.getHMAC('B64')
-      const Authorization = 'hmac username=\"' + AppID + '\", algorithm=\"hmac-sha1\", headers=\"x-date\", signature=\"' + HMAC + '\"'
-      return { Authorization: Authorization, 'X-Date': GMTString }
+    getAuthorizationHeader() {
+      const parameter = {
+        grant_type: 'client_credentials',
+        client_id: process.env.VUE_APP_CLIENTID,
+        client_secret: process.env.VUE_APP_CLIENTSECRET
+      }
+      this.axios({
+        method: 'POST',
+        url: process.env.VUE_APP_AUTHURL,
+        dataType: 'JSON',
+        data: this.$qs.stringify(parameter),
+        headers: {
+          'content-type': 'application/x-www-form-urlencoded'
+        }
+      })
+        .then(res => {
+          this.axios.defaults.headers.common.Authorization = `Bearer ${res.data.access_token}`
+          this.getBikeRouteData()
+          this.getBikeStationData()
+          this.getBikeAvailableData()
+        })
+        .catch(err => {
+          console.log(err)
+        })
     },
-    getBikeRouteData () {
+    getBikeRouteData() {
       this.isLoading = true
       const currentCity = this.cityName
       if (this.screenWidth < 766) {
@@ -725,8 +750,7 @@ export default {
       this.removeMarkers()
       this.axios({
         methods: 'get',
-        url: `https://ptx.transportdata.tw/MOTC/v2/Cycling/Shape/${currentCity}?$format=JSON`,
-        headers: this.getAuthorizationHeader()
+        url: `https://tdx.transportdata.tw/api/basic/v2/Cycling/Shape/City/${currentCity}?$format=JSON`
       })
         .then(res => {
           this.bikeRouteData = res.data
@@ -737,7 +761,7 @@ export default {
           console.log(err.response)
         })
     },
-    getBikeStationData () {
+    getBikeStationData() {
       this.isLoading = true
       const cityNameFew = this.cityNameFew
       this.mapOptions.center = [23.92275, 120.98979]
@@ -745,8 +769,7 @@ export default {
       this.map.setView(this.mapOptions.center, this.mapOptions.zoom)
       this.axios({
         methods: 'get',
-        url: `https://ptx.transportdata.tw/MOTC/v2/Bike/Station/${cityNameFew}?$format=JSON`,
-        headers: this.getAuthorizationHeader()
+        url: `https://tdx.transportdata.tw/api/basic/v2/Bike/Station/City/${cityNameFew}?$format=JSON`
       })
         .then(res => {
           this.bikeStationData = res.data
@@ -764,9 +787,8 @@ export default {
           console.log(err.response)
         })
     },
-    getBikeAvailableData () {
+    getBikeAvailableData() {
       this.isLoading = true
-
       const currentCityFew = this.cityNameFew
       if (this.screenWidth < 766) {
         this.mapOptions.center = [23.7072015, 121.0082785]
@@ -779,19 +801,27 @@ export default {
       }
       this.axios({
         methods: 'get',
-        url: `https://ptx.transportdata.tw/MOTC/v2/Bike/Availability/${currentCityFew}?$format=JSON`,
-        headers: this.getAuthorizationHeader()
+        url: `https://tdx.transportdata.tw/api/basic/v2/Bike/Availability/City/${currentCityFew}?$format=JSON`
       })
         .then(res => {
           this.bikeAvailabilityData = res.data
           this.filterBikeData.length = 0
           this.bikeAvailabilityData.forEach(bikeAvailabilityItem => {
             this.bikeStationData.forEach(bikeStationItem => {
-              if (bikeAvailabilityItem.StationUID === bikeStationItem.StationUID) {
-                bikeAvailabilityItem.StationName = bikeStationItem.StationName.Zh_tw.replace(/_|ˍ/g, '').replace(/YouBike1.0 |YouBike2.0 |iBike1.0 /g, '')
-                bikeAvailabilityItem.StationAddress = bikeStationItem.StationAddress
-                bikeAvailabilityItem.StationPosition = bikeStationItem.StationPosition
-                bikeAvailabilityItem.BikesCapacity = bikeStationItem.BikesCapacity
+              if (
+                bikeAvailabilityItem.StationUID === bikeStationItem.StationUID
+              ) {
+                bikeAvailabilityItem.StationName =
+                  bikeStationItem.StationName.Zh_tw.replace(/_|ˍ/g, '').replace(
+                    /YouBike1.0 |YouBike2.0 |iBike1.0 /g,
+                    ''
+                  )
+                bikeAvailabilityItem.StationAddress =
+                  bikeStationItem.StationAddress
+                bikeAvailabilityItem.StationPosition =
+                  bikeStationItem.StationPosition
+                bikeAvailabilityItem.BikesCapacity =
+                  bikeStationItem.BikesCapacity
                 this.filterBikeData.push(bikeAvailabilityItem)
               }
             })
@@ -825,7 +855,10 @@ export default {
         }
       })
       this.routeStart = this.geojsonFeature.coordinates[0][0]
-      this.routeEnd = this.geojsonFeature.coordinates[0][this.geojsonFeature.coordinates[0].length - 1]
+      this.routeEnd =
+        this.geojsonFeature.coordinates[0][
+          this.geojsonFeature.coordinates[0].length - 1
+        ]
       this.bikeRouteData.forEach(item => {
         if (item.RouteName === this.bikeRouteName) {
           this.roadStartName = item.RoadSectionStart
@@ -836,8 +869,9 @@ export default {
       this.setEndMarker()
     },
     setStartMarker() {
-      this.startMarker = new L.marker(this.routeStart, { icon: bikeStartIcon }).bindPopup(
-        `<div class="start-popup route-popup">
+      this.startMarker = new L.marker(this.routeStart, { icon: bikeStartIcon })
+        .bindPopup(
+          `<div class="start-popup route-popup">
             <h2>${this.bikeRouteName}</h2>
             <div class="info">
               <span>起點</span>
@@ -845,11 +879,13 @@ export default {
             </div>
           </div>
         `
-      ).addTo(this.map)
+        )
+        .addTo(this.map)
     },
     setEndMarker() {
-      this.endMarker = new L.marker(this.routeEnd, { icon: bikeEndIcon }).bindPopup(
-        `<div class="end-popup route-popup">
+      this.endMarker = new L.marker(this.routeEnd, { icon: bikeEndIcon })
+        .bindPopup(
+          `<div class="end-popup route-popup">
             <h2>${this.bikeRouteName}</h2>
             <div class="info">
               <span>終點</span>
@@ -857,11 +893,12 @@ export default {
             </div>
           </div>
         `
-      ).addTo(this.map)
+        )
+        .addTo(this.map)
     },
     removeMarkers() {
       this.markerCluster.clearLayers()
-      this.map.eachLayer((layer) => {
+      this.map.eachLayer(layer => {
         if (layer instanceof L.Marker) {
           this.map.removeLayer(layer)
         }
@@ -956,6 +993,6 @@ export default {
 @import url('https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css');
 @import url('https://fonts.googleapis.com/css2?family=Material+Icons');
 @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;800;900&display=swap');
-@import url("https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/css/bootstrap-grid.min.css");
+@import url('https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/css/bootstrap-grid.min.css');
 @import './assets/scss/main.scss';
 </style>

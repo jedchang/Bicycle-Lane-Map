@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
+import qs from 'qs'
 import { Tabs, TabPane, Pagination, Button } from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import filterDistance from './utils/filterDistance'
@@ -21,6 +22,9 @@ Vue.use(Pagination)
 Vue.use(Button)
 
 Vue.filter('distance', filterDistance)
+
+// 全域註冊 qs
+Vue.prototype.$qs = qs
 
 new Vue({
   render: h => h(App)
