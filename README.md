@@ -1,7 +1,7 @@
 # Bicycle Lane Map
 
 自行車道地圖資訊整合網
-![](https://images2.imgbox.com/b4/e8/qvDWKCAr_o.jpg)
+![image](https://github.com/jedchang/Bicycle-Lane-Map/blob/master/preview.jpg)
 
 ## Demo
 
