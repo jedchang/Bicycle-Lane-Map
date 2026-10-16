@@ -40,6 +40,7 @@ https://jedchang.github.io/Bicycle-Lane-Map/
 - [x] RWD 版面樣式
 - [x] 分頁列表功能
 - [x] 手勢處理滾動
+- [x] 改串接 TDX V2.1 API
 
 ## Remark
 
